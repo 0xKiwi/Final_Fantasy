@@ -45,7 +45,7 @@ public class Battle extends JFrame {
 		selectionBox.setBorder(border);
 		selectionBox.setBackground(selectorBg);
 		selectionBox.setOpaque(true);
-		selectionBox.setBounds(0, 344, 144, 166);
+		selectionBox.setBounds(0, 344, 860, 166);
 		frame.add(selectionBox);
 	}
 }
