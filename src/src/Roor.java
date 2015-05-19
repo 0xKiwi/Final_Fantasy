@@ -20,11 +20,11 @@ public class Roor extends JApplet
 	public class Sound{
 		public AudioClip song;
 		public URL songPath;
-		Sound(){try{songPath = new URL(getCodeBase(), "Air.wav"); song = Applet.newAudioClip(songPath); }catch (Exception e) {} }
+		Sound(){try{songPath = new URL(getCodeBase(), "Roar.wav"); song = Applet.newAudioClip(songPath); }catch (Exception e) {} }
 		
 		public void playSoundOnce(){  try
 		  {
-		    InputStream inputStream = getClass().getResourceAsStream("Air.wav");
+		    InputStream inputStream = getClass().getResourceAsStream("Roar.wav");
 		    AudioStream audioStream = new AudioStream(inputStream);
 		    AudioPlayer.player.start(audioStream);
 		  }
