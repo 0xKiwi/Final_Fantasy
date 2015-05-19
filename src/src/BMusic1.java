@@ -11,12 +11,8 @@ import java.io.InputStream;
 import java.net.URL;
 
 
-public class BMusic1 extends JApplet
-{
-	public BMusic1(){
-		init();
-	}
-	
+public class BMusic1 extends JApplet {
+
 	public class Sound{
 		public AudioClip song;
 		public URL songPath;

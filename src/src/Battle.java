@@ -11,7 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.border.Border;
 
 public class Battle extends JFrame implements KeyListener{
-
+	BMusic1 bm1 = new BMusic1();
+	BMusic2 bm2 = new BMusic2();
+	
 	public JFrame frame;
 
 	public JLabel selectionBox;
@@ -33,7 +35,10 @@ public class Battle extends JFrame implements KeyListener{
 		makeFrame();
 		createBoxes();
 		frame.setVisible(true);
-		BMusic1 bm1 = new BMusic1();
+		if((int)(Math.random() * 2 + 1) == 1)
+			bm1.init();
+		else
+			bm2.init();
 		frame.addKeyListener(this);
 	}
 
