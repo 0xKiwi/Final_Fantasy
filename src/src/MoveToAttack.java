@@ -6,9 +6,17 @@ public class MoveToAttack {
 		defend = defender;
 		if(damage != 0){
 			Blast();
+			HitOrMiss hit = new HitOrMiss(damage);
+		}else{
+			HitOrMiss missed = new HitOrMiss(1);
+		}if(damage < 0){
+			Heal();
 		}
 	}
 	public void Blast(){
+		
+	}
+	public void Heal(){
 		
 	}
 }
