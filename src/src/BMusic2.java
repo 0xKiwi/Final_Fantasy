@@ -20,11 +20,11 @@ public class BMusic2 extends JApplet
 	public class Sound{
 		public AudioClip song;
 		public URL songPath;
-		Sound(){try{songPath = new URL(getCodeBase(), "Air.wav"); song = Applet.newAudioClip(songPath); }catch (Exception e) {} }
+		Sound(){try{songPath = new URL(getCodeBase(), "Battle2.wav"); song = Applet.newAudioClip(songPath); }catch (Exception e) {} }
 		
 		public void playSoundOnce(){  try
 		  {
-		    InputStream inputStream = getClass().getResourceAsStream("Air.wav");
+		    InputStream inputStream = getClass().getResourceAsStream("Battle2.wav");
 		    AudioStream audioStream = new AudioStream(inputStream);
 		    AudioPlayer.player.start(audioStream);
 		  }
