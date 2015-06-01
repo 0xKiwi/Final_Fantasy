@@ -12,21 +12,24 @@ public class CharacterRules {
 	}
 	
 	
-	public void damageEnemy(){
+	public void damageEnemy(int value2){
+		value = value2;
 		enemyHealth -= value;
 		if(enemyHealth <= 0){
 			enemyHealth = 0;
 			End end = new End(true);
 		}
 	}
-	public void damagePlayer(){
+	public void damagePlayer(int value2){
+		value = value2;
 		userHealth -= value;
 		if(userHealth <= 0){
 			userHealth = 0;
 			End end = new End(false);
 		}
 	}
-	public void healPlayer(){
+	public void healPlayer(int value2){
+		value = value2;
 		userHealth -= value;
 		if(userHealth > 572){
 			userHealth = 572;

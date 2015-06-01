@@ -14,13 +14,16 @@ import javax.swing.border.Border;
 public class Battle extends JFrame implements KeyListener{
 	BMusic1 bm1 = new BMusic1();
 	BMusic2 bm2 = new BMusic2();
-	
-	public JFrame frame;
 
+	public JFrame frame;
+	
+	public JLabel status;
 	public JLabel action;
 	public JLabel selectionBox;
 	public JLabel selectLabel;
 	public JLabel bgr;
+	public JLabel mage;
+	public JLabel enemy;
 	
 	public JLabel attack1 = new JLabel("ThunderBolt");
 	public JLabel attack2 = new JLabel("Iron Tail");
@@ -32,15 +35,18 @@ public class Battle extends JFrame implements KeyListener{
 	
 	ImageIcon select = new ImageIcon(getClass().getResource("white_arrow.png"));
 	ImageIcon bg = new ImageIcon(getClass().getResource("Background.png"));
+	ImageIcon mageIcon = new ImageIcon(getClass().getResource("black-mage.png"));
+	ImageIcon enemyIcon = new ImageIcon(getClass().getResource("Enemy.gif"));
 	
-	public Battle() {
+	public void start() {
 		makeFrame();
 		createBoxes();
 		frame.setVisible(true);
-		if((int)(Math.random() * 2 + 1) == 1)
+		/*if((int)(Math.random() * 2 + 1) == 1)
 			bm1.init();
 		else
 			bm2.init();
+		*/
 		frame.addKeyListener(this);
 	}
 
@@ -57,26 +63,34 @@ public class Battle extends JFrame implements KeyListener{
 	}
 	
 	public void createBoxes() {
-		attack1.setBounds(50, 395, 100, 50);
+		mage = new JLabel(mageIcon);
+		frame.add(mage);
+		mage.setBounds(600,150,200,300);
+		
+		enemy = new JLabel(enemyIcon);
+		frame.add(enemy);
+		enemy.setBounds(100,25,300,300);
+		
+		attack1.setBounds(50, 395, 200, 50);
 		attack1.setForeground(Color.WHITE);
 		attack1.setFont(attack1.getFont().deriveFont(16.0f));
 		frame.add(attack1);
 		
-		attack2.setBounds(50, 445, 100, 50);
+		attack2.setBounds(50, 445, 200, 50);
 		attack2.setForeground(Color.WHITE);
 		attack2.setFont(attack2.getFont().deriveFont(16.0f));
 		frame.add(attack2);
 		
-		attack3.setBounds(340, 395, 100, 50);
+		attack3.setBounds(340, 395, 200, 50);
 		attack3.setForeground(Color.WHITE);
 		attack3.setFont(attack3.getFont().deriveFont(16.0f));
 		frame.add(attack3);
 		
-		attack4.setBounds(340, 445, 100, 50);
+		attack4.setBounds(340, 445, 200, 50);
 		attack4.setForeground(Color.WHITE);
 		attack4.setFont(attack4.getFont().deriveFont(16.0f));
 		frame.add(attack4);
-
+		
 		selectLabel = new JLabel(select);
 		frame.add(selectLabel);
 		selectLabel.setBounds(attack1.getX() - 45, attack1.getY(), 50, 50);
@@ -89,6 +103,26 @@ public class Battle extends JFrame implements KeyListener{
 		selectionBox.setOpaque(true);
 		selectionBox.setBounds(0, 377, 949, 136);
 		frame.add(selectionBox);
+		
+		status = new JLabel();
+		status.setForeground(Color.white);
+		status.setBorder(border);
+		status.setBackground(selectorBg);
+		status.setOpaque(true);
+		status.setBounds(600, 377, 349, 136);
+		frame.add(status);
+		
+		JLayeredPane layer = new JLayeredPane();
+		frame.setContentPane(layer);
+		layer.add(mage, 4);
+		layer.add(selectionBox, 3);
+		layer.add(status, 2);
+		layer.add(selectLabel, 0);
+		layer.add(attack1, 1);
+		layer.add(attack2, 1);
+		layer.add(attack3, 1);
+		layer.add(attack4, 1);
+		layer.add(bgr, 5);
 	}
 	
 	/// MAKE SOUND LOOOOP
@@ -99,6 +133,7 @@ public class Battle extends JFrame implements KeyListener{
 		frame.remove(attack4);
 		frame.remove(selectionBox);
 		frame.remove(selectLabel);
+		frame.remove(status);
 		frame.repaint();
 		
 		action = new JLabel("You used " + label.getText() + "!");
@@ -110,8 +145,10 @@ public class Battle extends JFrame implements KeyListener{
 		JLayeredPane layered = new JLayeredPane();
 		frame.setContentPane(layered);
 		layered.add(action, 0);
-		layered.add(selectionBox, 1);
-		layered.add(bgr, 2);
+		layered.add(selectionBox, 2);
+		layered.add(bgr, 4);
+		layered.add(status, 1);
+		layered.add(mage, 3);
 		frame.setVisible(true);
 	}
 	
