@@ -14,7 +14,8 @@ import javax.swing.border.Border;
 public class Battle extends JFrame implements KeyListener{
 	BMusic1 bm1 = new BMusic1();
 	BMusic2 bm2 = new BMusic2();
-
+	public SavedValues ochinchin = new SavedValues(512, 800);
+	public CharacterRules charles;
 	public JFrame frame;
 	
 	public JLabel status;
@@ -24,9 +25,11 @@ public class Battle extends JFrame implements KeyListener{
 	public JLabel bgr;
 	public JLabel mage;
 	public JLabel enemy;
+	public JLabel mageHP = new JLabel("Mage      " + " /512");
+	public JLabel enemyHP = new JLabel();
 	
-	public JLabel attack1 = new JLabel("ThunderBolt");
-	public JLabel attack2 = new JLabel("Iron Tail");
+	public JLabel attack1 = new JLabel("Pie");
+	public JLabel attack2 = new JLabel("Heal");
 	public JLabel attack3 = new JLabel("Sand Attack");
 	public JLabel attack4 = new JLabel("Harden");
 
@@ -48,6 +51,8 @@ public class Battle extends JFrame implements KeyListener{
 			bm2.init();
 		*/
 		frame.addKeyListener(this);
+		//MoveToAttack attacktest = new MoveToAttack(420, 2, frame);
+		//MoveToAttack healtest = new MoveToAttack(-420, 1, frame);
 	}
 
 	public void makeFrame() {
@@ -69,7 +74,7 @@ public class Battle extends JFrame implements KeyListener{
 		
 		enemy = new JLabel(enemyIcon);
 		frame.add(enemy);
-		enemy.setBounds(100,25,300,300);
+		enemy.setBounds(0,-50,500,500);
 		
 		attack1.setBounds(50, 395, 200, 50);
 		attack1.setForeground(Color.WHITE);
@@ -114,8 +119,8 @@ public class Battle extends JFrame implements KeyListener{
 		
 		JLayeredPane layer = new JLayeredPane();
 		frame.setContentPane(layer);
-		layer.add(mage, 4);
-		layer.add(selectionBox, 3);
+		layer.add(mage, 3);
+		layer.add(selectionBox, 2);
 		layer.add(status, 2);
 		layer.add(selectLabel, 0);
 		layer.add(attack1, 1);
@@ -149,7 +154,38 @@ public class Battle extends JFrame implements KeyListener{
 		layered.add(bgr, 4);
 		layered.add(status, 1);
 		layered.add(mage, 3);
+		if(label.getText().equals("Pie chance")){
+			double k = (Math.random() * 10 + 1);
+			if(k > 2){
+				Character(1,ochinchin.playah(),ochinchin.enemi(), 1);
+			}else
+		Character(600,ochinchin.playah(),ochinchin.enemi(), 1);
+		//pie chance
+		}
+		if(label.getText().equals("Pain")){
+		Character(215,ochinchin.playah(),ochinchin.enemi(), 3);
+		//pains
+		}
+		if(label.getText().equals("Lightning storm")){
+		Character(150,ochinchin.playah(),ochinchin.enemi(), 4);
+		//Lightning storm
+		}
+		if(label.getText().equals("Pie chance")){
+		Character(-128,ochinchin.playah(),ochinchin.enemi(), 2);
+		//heal
+		}
 		frame.setVisible(true);
+	}
+	public void Character(int d, int p, int e, int attack){
+		if(attack == 1){
+			charles.damageEnemy(d);
+		}if(attack == 2){
+			charles.damageEnemy(d);
+		}if(attack == 3){
+			charles.healPlayer(d);
+		}if(attack == 4){
+			charles.damageEnemy(d);
+		}
 	}
 	
 	@Override
@@ -196,4 +232,48 @@ public class Battle extends JFrame implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {}
+	
+	public class CharacterRules {
+		public int userHealth;
+		public int enemyHealth;
+		public int value;
+		
+		public CharacterRules(int damage, int pHealth, int eHealth){
+			userHealth = pHealth;
+			enemyHealth = eHealth;
+			value = damage; 		}
+		
+		
+		public void damageEnemy(int value2){
+			value = value2;
+			enemyHealth -= value;
+			if(enemyHealth <= 0){
+				enemyHealth = 0;
+				End end = new End(true);
+			}
+			MoveToAttack kek = new MoveToAttack(value, 1, frame);
+		}
+		public void damagePlayer(int value2){
+			value = value2;
+			userHealth -= value;
+			if(userHealth <= 0){
+				userHealth = 0;
+				End end = new End(false);
+			}
+			MoveToAttack kek = new MoveToAttack(value, 2, frame);
+			
+		}
+		public void healPlayer(int value2){
+			value = value2;
+			userHealth -= value;
+			if(userHealth > 572){
+				userHealth = 572;
+			}
+			MoveToAttack kek = new MoveToAttack(value, 1, frame);
+		}
+		public int getPlayerHealth(){return userHealth;}
+		public int getEnemyHealth(){return enemyHealth;}
+
+	}
+
 }
