@@ -57,6 +57,7 @@ public class MoveToAttack extends Battle{
 			BB.setLocation(550,150);
 		}
 		t.start();
+		
 	}
 	public void Heal(){
 		Heal heil = new Heal();

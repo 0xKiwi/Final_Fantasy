@@ -25,13 +25,13 @@ public class Battle extends JFrame implements KeyListener{
 	public JLabel bgr;
 	public JLabel mage;
 	public JLabel enemy;
-	public JLabel mageHP = new JLabel("Mage      " + " /512");
-	public JLabel enemyHP = new JLabel();
+	public JLabel mageHP = new JLabel("Mage      " + "/512");
+	public JLabel enemyHP = new JLabel("Wizard      " + + "/900");
 	
 	public JLabel attack1 = new JLabel("Pie");
-	public JLabel attack2 = new JLabel("Heal");
-	public JLabel attack3 = new JLabel("Sand Attack");
-	public JLabel attack4 = new JLabel("Harden");
+	public JLabel attack2 = new JLabel("Pain");
+	public JLabel attack3 = new JLabel("Heal");
+	public JLabel attack4 = new JLabel("LightningStorm");
 
 	Color borderColor = new Color(223, 234, 216);
 	Color selectorBg = new Color(24, 32, 204);
@@ -163,7 +163,7 @@ public class Battle extends JFrame implements KeyListener{
 		//pie chance
 		}
 		if(label.getText().equals("Pain")){
-		Character(215,ochinchin.playah(),ochinchin.enemi(), 3);
+		Character(215,ochinchin.playah(),ochinchin.enemi(), 2);
 		//pains
 		}
 		if(label.getText().equals("Lightning storm")){
@@ -171,7 +171,7 @@ public class Battle extends JFrame implements KeyListener{
 		//Lightning storm
 		}
 		if(label.getText().equals("Pie chance")){
-		Character(-128,ochinchin.playah(),ochinchin.enemi(), 2);
+		Character(-128,ochinchin.playah(),ochinchin.enemi(), 3);
 		//heal
 		}
 		frame.setVisible(true);
@@ -179,12 +179,18 @@ public class Battle extends JFrame implements KeyListener{
 	public void Character(int d, int p, int e, int attack){
 		if(attack == 1){
 			charles.damageEnemy(d);
+			enemyHP.setText("Wizard      " + charles.getEnemyHealth() + "/900");
 		}if(attack == 2){
 			charles.damageEnemy(d);
+			charles.damagePlayer(d);
+			enemyHP.setText("Wizard      " + charles.getEnemyHealth() + "/900");
+			enemyHP.setText("Mage      " + charles.getPlayerHealth() + "/512");
 		}if(attack == 3){
 			charles.healPlayer(d);
+			enemyHP.setText("Mage      " + charles.getPlayerHealth() + "/512");
 		}if(attack == 4){
 			charles.damageEnemy(d);
+			enemyHP.setText("Wizard      " + charles.getEnemyHealth() + "/900");
 		}
 	}
 	
