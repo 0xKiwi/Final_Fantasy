@@ -9,13 +9,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
+
+import org.omg.PortableInterceptor.USER_EXCEPTION;
 
 public class Battle extends JFrame implements KeyListener{
 	BMusic1 bm1 = new BMusic1();
 	BMusic2 bm2 = new BMusic2();
-	public SavedValues ochinchin = new SavedValues(512, 800);
-	public CharacterRules charles;
+	public SavedValues ochinchin = new SavedValues(512, 1200);
+	public CharacterRules charles = new CharacterRules(512, 1200);
 	public JFrame frame;
 	
 	public JLabel status;
@@ -25,13 +28,13 @@ public class Battle extends JFrame implements KeyListener{
 	public JLabel bgr;
 	public JLabel mage;
 	public JLabel enemy;
-	public JLabel mageHP = new JLabel("Mage      " + "/512");
-	public JLabel enemyHP = new JLabel("Wizard      " + + "/900");
+	public JLabel mageHP = new JLabel("Mage      " + charles.userHealth + "/512");
+	public JLabel enemyHP = new JLabel("Wizard      " + charles.enemyHealth +"/1200");
 	
-	public JLabel attack1 = new JLabel("Pie");
+	public JLabel attack1 = new JLabel("Pie chance");
 	public JLabel attack2 = new JLabel("Pain");
 	public JLabel attack3 = new JLabel("Heal");
-	public JLabel attack4 = new JLabel("LightningStorm");
+	public JLabel attack4 = new JLabel("Lightning Storm");
 
 	Color borderColor = new Color(223, 234, 216);
 	Color selectorBg = new Color(24, 32, 204);
@@ -69,35 +72,36 @@ public class Battle extends JFrame implements KeyListener{
 	
 	public void createBoxes() {
 		mage = new JLabel(mageIcon);
-		frame.add(mage);
 		mage.setBounds(600,150,200,300);
 		
+		mageHP.setBounds(650, 400, 200, 100);
+		mageHP.setForeground(Color.WHITE);
+		mageHP.setFont(mageHP.getFont().deriveFont(16.0f));
+		
 		enemy = new JLabel(enemyIcon);
-		frame.add(enemy);
 		enemy.setBounds(0,-50,500,500);
+		
+		enemyHP.setBounds(650, 425, 200, 100);
+		enemyHP.setForeground(Color.WHITE);
+		enemyHP.setFont(enemyHP.getFont().deriveFont(16.0f));
 		
 		attack1.setBounds(50, 395, 200, 50);
 		attack1.setForeground(Color.WHITE);
 		attack1.setFont(attack1.getFont().deriveFont(16.0f));
-		frame.add(attack1);
 		
 		attack2.setBounds(50, 445, 200, 50);
 		attack2.setForeground(Color.WHITE);
 		attack2.setFont(attack2.getFont().deriveFont(16.0f));
-		frame.add(attack2);
 		
 		attack3.setBounds(340, 395, 200, 50);
 		attack3.setForeground(Color.WHITE);
 		attack3.setFont(attack3.getFont().deriveFont(16.0f));
-		frame.add(attack3);
 		
 		attack4.setBounds(340, 445, 200, 50);
 		attack4.setForeground(Color.WHITE);
 		attack4.setFont(attack4.getFont().deriveFont(16.0f));
-		frame.add(attack4);
 		
 		selectLabel = new JLabel(select);
-		frame.add(selectLabel);
 		selectLabel.setBounds(attack1.getX() - 45, attack1.getY(), 50, 50);
 		
 		selectionBox = new JLabel();
@@ -107,7 +111,6 @@ public class Battle extends JFrame implements KeyListener{
 		selectionBox.setBackground(selectorBg);
 		selectionBox.setOpaque(true);
 		selectionBox.setBounds(0, 377, 949, 136);
-		frame.add(selectionBox);
 		
 		status = new JLabel();
 		status.setForeground(Color.white);
@@ -115,45 +118,45 @@ public class Battle extends JFrame implements KeyListener{
 		status.setBackground(selectorBg);
 		status.setOpaque(true);
 		status.setBounds(600, 377, 349, 136);
-		frame.add(status);
 		
 		JLayeredPane layer = new JLayeredPane();
 		frame.setContentPane(layer);
-		layer.add(mage, 3);
-		layer.add(selectionBox, 2);
-		layer.add(status, 2);
+		layer.add(mage, 5);
+		layer.add(enemy, 5);
+		layer.add(selectionBox, 4);
+		layer.add(status, 3);
+		layer.add(mageHP, 0);
+		layer.add(enemyHP, 0);
 		layer.add(selectLabel, 0);
 		layer.add(attack1, 1);
 		layer.add(attack2, 1);
 		layer.add(attack3, 1);
 		layer.add(attack4, 1);
-		layer.add(bgr, 5);
+		layer.add(bgr, 6);
 	}
 	
 	/// MAKE SOUND LOOOOP
-	public void attackSelect(JLabel label){
-		frame.remove(attack1);
-		frame.remove(attack2);
-		frame.remove(attack3);
-		frame.remove(attack4);
-		frame.remove(selectionBox);
-		frame.remove(selectLabel);
-		frame.remove(status);
-		frame.repaint();
-		
+	public void attackSelect(JLabel label){	
 		action = new JLabel("You used " + label.getText() + "!");
 		action.setForeground(Color.white);
 		action.setFont(action.getFont().deriveFont(18.0f));
 		action.setBounds(80, 345, 800, 200);
 		frame.add(action);
 		frame.add(selectionBox);
-		JLayeredPane layered = new JLayeredPane();
-		frame.setContentPane(layered);
-		layered.add(action, 0);
-		layered.add(selectionBox, 2);
-		layered.add(bgr, 4);
-		layered.add(status, 1);
-		layered.add(mage, 3);
+		JLayeredPane layer = new JLayeredPane();
+		frame.setContentPane(layer);
+		layer.add(mage, 5);
+		layer.add(enemy, 5);
+		layer.add(selectionBox, 4);
+		layer.add(status, 3);
+		layer.add(mageHP, 0);
+		layer.add(enemyHP, 0);
+		layer.add(selectLabel, 0);
+		layer.add(attack1, 1);
+		layer.add(attack2, 1);
+		layer.add(attack3, 1);
+		layer.add(attack4, 1);
+		layer.add(bgr, 6);
 		if(label.getText().equals("Pie chance")){
 			double k = (Math.random() * 10 + 1);
 			if(k > 2){
@@ -166,31 +169,63 @@ public class Battle extends JFrame implements KeyListener{
 		Character(215,ochinchin.playah(),ochinchin.enemi(), 2);
 		//pains
 		}
-		if(label.getText().equals("Lightning storm")){
+		if(label.getText().equals("Lightning Storm")){
 		Character(150,ochinchin.playah(),ochinchin.enemi(), 4);
 		//Lightning storm
 		}
-		if(label.getText().equals("Pie chance")){
-		Character(-128,ochinchin.playah(),ochinchin.enemi(), 3);
+		if(label.getText().equals("Heal")){
+		Character(-200,ochinchin.playah(),ochinchin.enemi(), 3);
 		//heal
 		}
 		frame.setVisible(true);
 	}
+	public void gameComplete(int eh, int ph){
+		
+		if(eh == 0){
+			frame.removeAll();
+			frame.repaint();
+			frame.setVisible(true);
+			frame.add(action);
+			action.setText("You won!");
+		}
+		if(ph == 0){
+			frame.removeAll();
+			frame.repaint();
+			frame.setVisible(true);
+			frame.add(action);
+			action.setText("You lost....");
+		}
+	}
 	public void Character(int d, int p, int e, int attack){
 		if(attack == 1){
 			charles.damageEnemy(d);
-			enemyHP.setText("Wizard      " + charles.getEnemyHealth() + "/900");
+			enemyHP.setText("Wizard      " + charles.getEnemyHealth() + "/1200");
+			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
+			charles.damagePlayer(175);
+			mageHP.setText("Mage      " + charles.getPlayerHealth() + "/512");
+			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
 		}if(attack == 2){
-			charles.damageEnemy(d);
-			charles.damagePlayer(d);
-			enemyHP.setText("Wizard      " + charles.getEnemyHealth() + "/900");
-			enemyHP.setText("Mage      " + charles.getPlayerHealth() + "/512");
+			charles.damageEnemy(d + 300);
+			enemyHP.setText("Wizard      " + charles.getEnemyHealth() + "/1200");
+			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
+			charles.damagePlayer(d + 150);
+			mageHP.setText("Mage      " + charles.getPlayerHealth() + "/512");
+			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
+
 		}if(attack == 3){
-			charles.healPlayer(d);
-			enemyHP.setText("Mage      " + charles.getPlayerHealth() + "/512");
+			charles.damageEnemy(0);
+			enemyHP.setText("Wizard      " + charles.getEnemyHealth() + "/1200");
+			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
+			charles.healPlayer(d + 175);
+			mageHP.setText("Mage      " + charles.getPlayerHealth() + "/512");
+			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
 		}if(attack == 4){
 			charles.damageEnemy(d);
-			enemyHP.setText("Wizard      " + charles.getEnemyHealth() + "/900");
+			enemyHP.setText("Wizard      " + charles.getEnemyHealth() + "/1200");
+			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
+			charles.damagePlayer(175);
+			mageHP.setText("Mage      " + charles.getPlayerHealth() + "/512");
+			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
 		}
 	}
 	
@@ -238,48 +273,4 @@ public class Battle extends JFrame implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {}
-	
-	public class CharacterRules {
-		public int userHealth;
-		public int enemyHealth;
-		public int value;
-		
-		public CharacterRules(int damage, int pHealth, int eHealth){
-			userHealth = pHealth;
-			enemyHealth = eHealth;
-			value = damage; 		}
-		
-		
-		public void damageEnemy(int value2){
-			value = value2;
-			enemyHealth -= value;
-			if(enemyHealth <= 0){
-				enemyHealth = 0;
-				End end = new End(true);
-			}
-			MoveToAttack kek = new MoveToAttack(value, 1, frame);
-		}
-		public void damagePlayer(int value2){
-			value = value2;
-			userHealth -= value;
-			if(userHealth <= 0){
-				userHealth = 0;
-				End end = new End(false);
-			}
-			MoveToAttack kek = new MoveToAttack(value, 2, frame);
-			
-		}
-		public void healPlayer(int value2){
-			value = value2;
-			userHealth -= value;
-			if(userHealth > 572){
-				userHealth = 572;
-			}
-			MoveToAttack kek = new MoveToAttack(value, 1, frame);
-		}
-		public int getPlayerHealth(){return userHealth;}
-		public int getEnemyHealth(){return enemyHealth;}
-
-	}
-
 }

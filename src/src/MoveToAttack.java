@@ -11,6 +11,7 @@ import javax.swing.Timer;
 
 
 public class MoveToAttack extends Battle{
+	/*
 	public ImageIcon heal = new ImageIcon(getClass().getResource("HealToFix.png"));
 	public JLabel HH = new JLabel(heal);
 	public ImageIcon blas = new ImageIcon(getClass().getResource("Pie.gif"));
@@ -98,4 +99,5 @@ public class MoveToAttack extends Battle{
 			}
 			
 		}
+	*/
 }
