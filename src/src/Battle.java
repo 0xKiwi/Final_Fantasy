@@ -9,16 +9,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
-import org.omg.PortableInterceptor.USER_EXCEPTION;
-
 public class Battle extends JFrame implements KeyListener{
+	
 	BMusic1 bm1 = new BMusic1();
 	BMusic2 bm2 = new BMusic2();
-	public SavedValues ochinchin = new SavedValues(512, 1200);
-	public CharacterRules charles = new CharacterRules(512, 1200);
+	
+	public CharacterRules charles = new CharacterRules();
 	public JFrame frame;
 	
 	public JLabel status;
@@ -28,11 +26,11 @@ public class Battle extends JFrame implements KeyListener{
 	public JLabel bgr;
 	public JLabel mage;
 	public JLabel enemy;
-	public JLabel mageHP = new JLabel("Mage      " + charles.userHealth + "/512");
+	public JLabel mageHP = new JLabel("Black Mage   " + charles.userHealth + "/712");
 	public JLabel enemyHP = new JLabel("Wizard      " + charles.enemyHealth +"/1200");
 	
-	public JLabel attack1 = new JLabel("Pie chance");
-	public JLabel attack2 = new JLabel("Pain");
+	public JLabel attack1 = new JLabel("Metronome");
+	public JLabel attack2 = new JLabel("Flare Blits");
 	public JLabel attack3 = new JLabel("Heal");
 	public JLabel attack4 = new JLabel("Lightning Storm");
 
@@ -48,14 +46,11 @@ public class Battle extends JFrame implements KeyListener{
 		makeFrame();
 		createBoxes();
 		frame.setVisible(true);
-		/*if((int)(Math.random() * 2 + 1) == 1)
+		if((int)(Math.random() * 2 + 1) == 1)
 			bm1.init();
 		else
 			bm2.init();
-		*/
 		frame.addKeyListener(this);
-		//MoveToAttack attacktest = new MoveToAttack(420, 2, frame);
-		//MoveToAttack healtest = new MoveToAttack(-420, 1, frame);
 	}
 
 	public void makeFrame() {
@@ -139,7 +134,7 @@ public class Battle extends JFrame implements KeyListener{
 	public void attackSelect(JLabel label){	
 		action = new JLabel("You used " + label.getText() + "!");
 		action.setForeground(Color.white);
-		action.setFont(action.getFont().deriveFont(18.0f));
+		action.setFont(action.getFont().deriveFont(35.0f));
 		action.setBounds(80, 345, 800, 200);
 		frame.add(action);
 		frame.add(selectionBox);
@@ -157,74 +152,72 @@ public class Battle extends JFrame implements KeyListener{
 		layer.add(attack3, 1);
 		layer.add(attack4, 1);
 		layer.add(bgr, 6);
-		if(label.getText().equals("Pie chance")){
-			double k = (Math.random() * 10 + 1);
-			if(k > 2){
-				Character(1,ochinchin.playah(),ochinchin.enemi(), 1);
-			}else
-		Character(600,ochinchin.playah(),ochinchin.enemi(), 1);
-		//pie chance
+		if(label == attack1){
+			int k = (int)(Math.random() * 10 + 1);
+			if(k > 2)
+				Character(1, 1);
+			else
+				Character(550, 1);
 		}
-		if(label.getText().equals("Pain")){
-		Character(215,ochinchin.playah(),ochinchin.enemi(), 2);
-		//pains
-		}
-		if(label.getText().equals("Lightning Storm")){
-		Character(150,ochinchin.playah(),ochinchin.enemi(), 4);
-		//Lightning storm
-		}
-		if(label.getText().equals("Heal")){
-		Character(-200,ochinchin.playah(),ochinchin.enemi(), 3);
-		//heal
-		}
+		else if(label == attack2)
+			Character(215, 2);
+		else if(label == attack4)
+			Character(300, 4);
+		else if(label == attack3)
+			Character(400, 3);
 		frame.setVisible(true);
 	}
 	public void gameComplete(int eh, int ph){
-		
-		if(eh == 0){
-			frame.removeAll();
-			frame.repaint();
+		if(ph == 0 && eh == 0){
 			frame.setVisible(true);
+			frame.setContentPane(bgr);
 			frame.add(action);
+			frame.add(mageHP);
+			frame.add(enemyHP);
+			action.setText("Uhh, you both lost?");
+		}
+		else if(eh == 0){
+			frame.setVisible(true);
+			frame.setContentPane(bgr);
+			frame.add(action);
+			frame.add(mageHP);
+			frame.add(enemyHP);
 			action.setText("You won!");
 		}
-		if(ph == 0){
-			frame.removeAll();
-			frame.repaint();
+		else if(ph == 0){
 			frame.setVisible(true);
+			frame.setContentPane(bgr);
 			frame.add(action);
+			frame.add(mageHP);
+			frame.add(enemyHP);
 			action.setText("You lost....");
 		}
 	}
-	public void Character(int d, int p, int e, int attack){
+	public void Character(int d,int attack){
 		if(attack == 1){
 			charles.damageEnemy(d);
-			enemyHP.setText("Wizard      " + charles.getEnemyHealth() + "/1200");
 			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
-			charles.damagePlayer(175);
-			mageHP.setText("Mage      " + charles.getPlayerHealth() + "/512");
+			charles.damagePlayer(125);
+			mageHP.setText("Black Mage   " + charles.userHealth + "/712");
+			enemyHP.setText("Wizard      " + charles.enemyHealth +"/1200");
 			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
-		}if(attack == 2){
+		}else if(attack == 2){
 			charles.damageEnemy(d + 300);
-			enemyHP.setText("Wizard      " + charles.getEnemyHealth() + "/1200");
 			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
-			charles.damagePlayer(d + 150);
-			mageHP.setText("Mage      " + charles.getPlayerHealth() + "/512");
+			charles.damagePlayer(200);
+			mageHP.setText("Black Mage   " + charles.userHealth + "/712");
+			enemyHP.setText("Wizard      " + charles.enemyHealth +"/1200");
 			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
-
-		}if(attack == 3){
-			charles.damageEnemy(0);
-			enemyHP.setText("Wizard      " + charles.getEnemyHealth() + "/1200");
+		}else if(attack == 3){
+			charles.healPlayer(d);
+			mageHP.setText("Black Mage   " + charles.userHealth + "/712");
 			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
-			charles.healPlayer(d + 175);
-			mageHP.setText("Mage      " + charles.getPlayerHealth() + "/512");
-			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
-		}if(attack == 4){
+		}else if(attack == 4){
 			charles.damageEnemy(d);
-			enemyHP.setText("Wizard      " + charles.getEnemyHealth() + "/1200");
 			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
-			charles.damagePlayer(175);
-			mageHP.setText("Mage      " + charles.getPlayerHealth() + "/512");
+			charles.damagePlayer(125);
+			mageHP.setText("Black Mage   " + charles.userHealth + "/712");
+			enemyHP.setText("Wizard      " + charles.enemyHealth +"/1200");
 			gameComplete(charles.getEnemyHealth(), charles.getPlayerHealth());
 		}
 	}
